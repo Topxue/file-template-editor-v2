@@ -1,0 +1,42 @@
+{
+  "name": "online-editor",
+  "version": "1.0.0",
+  "description": "在线编辑-参数库",
+  "main": "./src/index.js",
+  "author": "PG_X",
+  "license": "MIT",
+  "scripts": {
+    "serve": "cross-env NODE_ENV=development webpack serve --open --config build/webpack.dev.js",
+    "build": "cross-env NODE_ENV=production webpack --config build/webpack.prod.js",
+    "postinstall": "patch-package"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/plugin-transform-runtime": "^7.16.0",
+    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-env": "^7.16.0",
+    "autoprefixer": "^10.4.0",
+    "babel-loader": "^8.2.3",
+    "core-js": "^3.19.1",
+    "css-loader": "^6.5.1",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.4.4",
+    "node-sass": "^6.0.1",
+    "postcss-loader": "^6.2.0",
+    "postinstall-postinstall": "^2.1.0",
+    "sass-loader": "^12.3.0",
+    "svg-url-loader": "^7.1.1",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.63.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.4.0",
+    "webpack-merge": "^5.8.0"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "froala-editor": "^4.0.6",
+    "patch-package": "^6.4.7",
+    "uikit": "^3.9.2"
+  }
+}
