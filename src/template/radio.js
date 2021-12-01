@@ -13,8 +13,7 @@ import {colorHex} from "@/utils";
  * 单选-参数编辑模板
  * @param params
  */
-export default ({params}) => {
-  console.log(params, 'params....')
+export const radio = ({params}) => {
   // 参数名称
   const paramName = params.name || '';
   // 字体颜色
@@ -94,7 +93,7 @@ export default ({params}) => {
       </div>
       <!--填写说明-->
       <div class="uk-margin">
-        <label class="uk-form-label" for="pg-param-font">填写说明</label>
+        <label class="uk-form-label">填写说明</label>
          <div class="uk-form-controls uk-margin-small-top">
          <textarea class="uk-textarea uk-text-emphasis accord-attr-input" name="description" placeholder="对该参数的其他说明(限100字)">${description}</textarea>
         </div>

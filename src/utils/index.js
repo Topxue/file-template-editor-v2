@@ -66,3 +66,22 @@ export const promisify = (request) => {
     request.onerror = reject
   })
 }
+
+/**
+ * 参数插入富文本校验
+ * @returns {boolean}
+ */
+export const insertParameterVerify = () => {
+  const anchorNode = window?.getSelection()?.anchorNode
+  if (anchorNode) {
+    const isLabel = !!anchorNode?.tagName;
+
+    if (!isLabel) return !isLabel;
+
+    if (isLabel && !!anchorNode.getAttribute('data-param-type')) {
+      return false
+    }
+  }
+
+  return true;
+}

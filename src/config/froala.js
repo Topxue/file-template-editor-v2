@@ -6,6 +6,8 @@ export const FROALA_CONTAINER = '#pg-froala-container';
 export const PARAMETERS_WRAPPER = '#pg-parameters-wrapper'
 // 参数编辑容器-ID
 export const PARAMETER_EDIT_WRAPPER = '#pg-parameter-edit-wrapper';
+// 日期选择容器ID
+export const PG_SELECT_DATE_ID = '#pg-select-date-wrapper';
 // 单选&多选 标识符 class
 export const PG_RADIO_AS_CHECKBOX = 'pg-radio-as-checkbox';
 
@@ -55,7 +57,7 @@ export const PARAMETERS = [
   {
     label: '单选',
     icon: 'fa fa-check-circle',
-    type: 'select'
+    type: 'radio'
   },
   {
     label: '多选',
@@ -70,7 +72,7 @@ export const PARAMETERS = [
   {
     label: '身份证号',
     icon: 'fa fa-id-card',
-    type: 'idCard'
+    type: 'idcard'
   },
 ]
 

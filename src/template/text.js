@@ -14,8 +14,7 @@ import {colorHex} from '@/utils';
  * @param config
  * @returns {string}
  */
-export default ({params} = {}) => {
-  console.log(params, 'params...')
+export const text = ({params}) => {
   // 参数名称
   const paramName = params.name || '';
   // 默认值
@@ -42,9 +41,9 @@ export default ({params} = {}) => {
       </div>
       <!--默认值-->
       <div class="uk-margin">
-        <label class="uk-form-label" for="pg-parameter-default-value">默认值</label>
+        <label class="uk-form-label">默认值</label>
         <div class="uk-form-controls uk-margin-small-top">
-          <input class="uk-input uk-form-small uk-text-emphasis accord-attr-input" id="pg-parameter-default-value" type="text" value="${showValue}" name="defaultValue" placeholder="请输入默认值" required>
+          <input class="uk-input uk-form-small uk-text-emphasis accord-attr-input" type="text" value="${showValue}" name="defaultValue" placeholder="请输入默认值" required>
         </div>
       </div>
       <!--外观-->
@@ -61,15 +60,15 @@ export default ({params} = {}) => {
             ${controlSizeOptions(params)}
             <div class="uk-margin-small uk-flex uk-flex-between" id="toggle-usage" ${controlShowState}>
               <div class="uk-width-1-2 uk-flex uk-flex-align-items">
-                <label class="uk-form-label uk-margin-small-right" for="pg-param-width">宽</label>
+                <label class="uk-form-label uk-margin-small-right">宽</label>
                 <div class="uk-form-controls uk-margin-small-right">
-                  <input class="uk-input uk-form-small uk-text-emphasis accord-style-input" id="pg-param-width" min="148" value="${controlWidth}" name="width" type="number" placeholder="请输入">
+                  <input class="uk-input uk-form-small uk-text-emphasis accord-style-input" min="148" value="${controlWidth}" name="width" type="number" placeholder="请输入">
                 </div>
               </div>
               <div class="uk-width-1-2 uk-flex uk-flex-align-items">
-                <label class="uk-form-label uk-margin-small-right" for="pg-param-height">高</label>
+                <label class="uk-form-label uk-margin-small-right">高</label>
                 <div class="uk-form-controls">
-                  <input class="uk-input uk-form-small uk-text-emphasis accord-style-input" id="pg-param-height" min="17" value="${controlHeight}" name="height"  type="number" placeholder="请输入">
+                  <input class="uk-input uk-form-small uk-text-emphasis accord-style-input" min="17" value="${controlHeight}" name="height"  type="number" placeholder="请输入">
                 </div>
               </div>
           </div>
@@ -77,16 +76,16 @@ export default ({params} = {}) => {
       </div>
       <!--字符限制-->
       <div class="uk-margin">
-        <label class="uk-form-label" for="pg-parameter-default-value">字符限制</label>
+        <label class="uk-form-label">字符限制</label>
         <div class="uk-form-controls uk-margin-small-top">
-          <input class="uk-input uk-form-small uk-text-emphasis accord-attr-input" id="pg-parameter-default-value" type="number" name="maxLength" min="0" max="1000" value="${maxLength}" placeholder="请输入字符限制">
+          <input class="uk-input uk-form-small uk-text-emphasis accord-attr-input" type="number" name="maxLength" min="0" max="1000" value="${maxLength}" placeholder="请输入字符限制">
         </div>
       </div>
       <!--字体-->
       <div class="uk-margin">
-        <label class="uk-form-label" for="pg-param-font">字体</label>
+        <label class="uk-form-label">字体</label>
         <div class="uk-form-controls uk-margin-small-top">
-           <select class="uk-select uk-form-small uk-text-emphasis accord-style-input" id="pg-param-font" name="fontFamily">
+           <select class="uk-select uk-form-small uk-text-emphasis accord-style-input" name="fontFamily">
              <option value="none">请选择</option>
              ${fontFamilyOptions(params)}
             </select>
@@ -94,9 +93,9 @@ export default ({params} = {}) => {
       </div>
       <!--字体大小-->
       <div class="uk-margin">
-        <label class="uk-form-label" for="pg-param-fontsize">字体大小</label>
+        <label class="uk-form-label">字体大小</label>
         <div class="uk-form-controls uk-margin-small-top">
-           <select class="uk-select uk-form-small uk-text-emphasis accord-style-input" id="pg-param-fontsize" name="fontSize">
+           <select class="uk-select uk-form-small uk-text-emphasis accord-style-input" name="fontSize">
              <option value="none">请选择</option>
              ${fontSizeOptions(params)}
            </select>
@@ -122,9 +121,9 @@ export default ({params} = {}) => {
       </div>
       <!--字体颜色-->
       <div class="uk-margin">
-        <label class="uk-form-label" for="pg-param-font">字体颜色</label>
+        <label class="uk-form-label">字体颜色</label>
          <div class="uk-form-controls uk-margin-small-top uk-width-1-3">
-          <input class="uk-input accord-style-input" type="color" name="color" value="${fontColor}" colorformat="hexa"/>
+          <input class="uk-input accord-style-input" type="color" name="color" value="${fontColor}"/>
         </div>
       </div>
       <!--填写说明-->

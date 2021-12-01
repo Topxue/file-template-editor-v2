@@ -54,6 +54,12 @@ export const controlSizeOptions = (params) => {
     {value: 'customize', label: '固定大小(自定义)'},
   ];
 
+  // 当前参数是否为日期参数
+  const isDateParamType = params.paramType === 'date';
+  if (isDateParamType) {
+    options.splice(0, 1);
+  }
+
   return options.reduce((prev, next, index) => {
     const isChecked = next.value === params.fontConfig.size[0];
 
@@ -172,4 +178,21 @@ export const optionSettingRender = (options) => {
   }, '');
 }
 
+/**
+ * 日期格式-渲染
+ * @param params
+ * @returns {string}
+ */
+export const dateFormatOptionsRender = (params) => {
+  const options = [
+    {value: 'yyyy-MM-dd', label: 'yyyy-MM-dd'},
+    {value: 'yyyy/MM/dd', label: 'yyyy/MM/dd'},
+    {value: 'yyyy年MM月dd日', label: 'yyyy年MM月dd日'}
+  ];
+  return options.reduce((prev, next) => {
+    const isSelected = next.value === params.format;
+    const option = isSelected ? `<option value="${next.value}" selected>${next.label}</option>` : `<option value="${next.value}">${next.label}</option>`;
+    return prev + option;
+  }, '');
+}
 

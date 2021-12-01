@@ -1,13 +1,15 @@
 import './assets/styles/index.scss';
 import '@/config/plugins';
 
+import FroalaEditor from 'froala-editor';
+
 import db from '@/utils/db';
 import {$} from "@/utils/Dom";
-import FroalaEditor from 'froala-editor';
+import * as parameter from '@/components/parameters';
 import bindEvent from '@/components/container/bindEvent';
 import {FROALA_CONTAINER, froalaConfig} from "@/config/froala";
 
-import * as parameter from './components/parameters';
+import {insertParameterVerify} from "@/utils";
 import {ObserveFroalaDom} from "@/utils/observe-dom";
 import createContainer from './components/container/render';
 
@@ -20,13 +22,12 @@ class PgEditor {
   }
 
   // 初始化
-   _init() {
+  _init() {
     // 初始化连接数据库
     db.initDB();
     createContainer(this.props);
     this.initFroalaEditor();
     this.registerBindEvent();
-
   }
 
   // 初始化Froala
@@ -37,16 +38,23 @@ class PgEditor {
       events: {
         // 完成初始化时触发
         'initialized': async function () {
+          // 初始化光表位置
+          this.events.focus()
           if (_this.props?.isViewer) {
             this.edit.off()
           }
           await ObserveFroalaDom(_this.froala);
         },
+        'table.inserted': async function (table) {
+          const replaceTableHtml = bindEvent.replaceTableContent(table);
+          this.html.insert(replaceTableHtml)
+        },
         'click': async function (clickEvent) {
-          await bindEvent._init(clickEvent, _this.froala)
+          await bindEvent._init(clickEvent, _this.froala);
         }
       }
     })
+
   }
 
   // 事件绑定
@@ -62,12 +70,20 @@ class PgEditor {
 
   // 插入参数库
   async insetParameter(event) {
-    const target = event.target
-    const isDiv = target.tagName === 'DIV'
+    const verify = insertParameterVerify();
+    if (!verify) {
+      return UIkit?.notification({
+        message: '参数内不允许插入参数',
+        status: 'danger',
+        timeout: 2500,
+      })
+    }
+
+    const target = event.target, isDiv = target.tagName === 'DIV';
     const paramType = isDiv ? target.getAttribute('data-param-type') : target.parentNode.getAttribute('data-param-type');
 
     // if (paramType === 'table') {
-    //   this.froala?.table.getTablepopups(event)
+    //   this.froala?.table.getTablePopups(event)
     //   return
     // }
 

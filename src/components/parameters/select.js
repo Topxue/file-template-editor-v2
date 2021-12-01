@@ -6,7 +6,7 @@
 
 import db from '@/utils/db';
 
-export const select = async (key) => {
+const select = async (key) => {
   const params = await db.getItem(key) || {};
   const {id, style, name, layout} = params;
 
@@ -19,4 +19,9 @@ export const select = async (key) => {
     data-param-type="radio"
     data-param-name="${name}"
     data-border-type="${style}"></span>&nbsp;`
+}
+
+
+export {
+  select as radio
 }

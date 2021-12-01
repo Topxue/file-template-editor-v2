@@ -1,0 +1,119 @@
+*, :after, :before {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+  height: 5px;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, .3);
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/*去除版权提示*/
+.fr-wrapper > div[style*='z-index: 9999'] {
+  position: absolute;
+  top: -10000px;
+  opacity: 0;
+  display: none;
+}
+
+:focus:not([tabindex^='-']) {
+  outline: none;
+}
+
+$base-bg-color: #f7f8f8;
+$base-color: #001330;
+$mr-top: 20px;
+
+html, body {
+  margin: 0;
+  padding: 0;
+  color: $base-color;
+  background-color: $base-bg-color;
+  font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, sans-serif;
+}
+
+/*froala 样式覆盖*/
+.fr-second-toolbar {
+  display: none;
+}
+
+.fr-box.fr-basic .fr-wrapper {
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+}
+
+.pg-edit-container {
+  display: flex;
+  height: calc(100vh - 70px);
+  margin-top: $mr-top;
+  overflow-y: auto;
+  justify-content: space-between;
+
+  .pg-html-panel-params {
+    @include navStyle;
+  }
+
+  .pg-froala-container {
+    flex: 1;
+    //width: 818px;
+  }
+
+  .pg-parameter-container {
+    @include navStyle;
+    box-sizing: border-box;
+    padding: 10px;
+  }
+}
+
+.pg-toolbar-container {
+  .fr-toolbar.fr-top {
+    display: flex;
+    justify-content: center;
+    border: none;
+    border-radius: 0;
+    text-align: center;
+    box-shadow: 0 2px 8px #00000026;
+    background-color: transparent;
+  }
+}
+
+/*parameter-样式*/
+.parameter-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  background: #fff;
+  padding: 8px;
+  box-sizing: border-box;
+  border-radius: 3px;
+  flex-direction: row;
+
+  .param-item {
+    width: 25%;
+    height: 54px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 13px;
+    color: #4c596e;
+    cursor: pointer;
+    user-select: none;
+    line-height: 28px;
+
+    &:hover {
+      background: #e5e7ea;
+    }
+  }
+}

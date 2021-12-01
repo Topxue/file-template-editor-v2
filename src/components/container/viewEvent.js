@@ -12,6 +12,11 @@ export default {
    * @param target
    */
   activeParamSynced(target) {
+    const isCard = target.getAttribute('name') === 'person';
+    if (isCard) {
+      target = target.parentNode;
+    }
+
     const isParameter = $.attr(target, 'data-param-type');
     const froalaContainer = document.querySelector(FROALA_CONTAINER);
     const parameters = froalaContainer.querySelectorAll('[data-param-type]');

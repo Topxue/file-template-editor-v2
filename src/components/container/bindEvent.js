@@ -1,16 +1,17 @@
 /** Created by xwp on 2021-11-18 **/
-import text from "@/template/text";
-import image from "@/template/image";
-import radio from "@/template/radio";
-
 import db from '@/utils/db';
 import {randomId} from "@/utils";
+import * as TEMPLATE_ENUM from '@/template/inedx';
 import view from "@/components/container/viewEvent";
+import dateEvent from '@/components/container/dateEvent';
 import replaceRadio from '@/components/parameters/radio';
+
 
 // 参数库编辑容器
 import {PARAMETER_EDIT_WRAPPER} from '@/config/froala'
 import {optionSettingRender} from "@/template/render";
+import {children} from "uikit/src/js/util";
+
 // 属性选择-class
 const ACCORD_ATTR_INPUT = '.accord-attr-input';
 //样式选择-class
@@ -20,15 +21,9 @@ const ALIGNMENT_WRAPPER = '.pg-alignment-wrapper';
 // 选项设置容器-ID
 const ADD_OPTION_BTN = '#pg-add-option';
 const OPTION_WRAPPER = '#pg-option-setting-wrapper';
+// 设置身份证默认值容器-ID
+const SET_ID_CARD_ID = '#set-id-card-wrapper';
 
-// 参数编辑-模板
-const TEMPLATE_ENUM = {
-  text,
-  image,
-  radio
-}
-
-const optionsMap = new Map([['param_no_delete', '请输入选项名称']]);
 
 /**
  * 需要像素的属性集合
@@ -46,28 +41,38 @@ export default {
   },
 
   /**
+   * 获取当前点击目标
+   * @param event
+   * @returns {(Node & ParentNode) | (() => (Node | null)) | ActiveX.IXMLDOMNode}
+   */
+  getTarget(event) {
+    let target = event.target;
+    if (target.tagName === 'INPUT') {
+      target = target.parentNode.parentNode;
+    } else if (target.tagName === 'LABEL' || target.getAttribute('name') === 'person') {
+      target = target.parentNode
+    }
+
+    return target
+  },
+
+  /**
    * 编辑区域事件代理
    * @param event
    */
   async parameterEditEvent(event) {
-    let target = event.target;
-    if (target.tagName === 'INPUT') {
-      target = target.parentNode.parentNode;
-    } else if (target.tagName === 'LABEL') {
-      target = target.parentNode
-    }
+    const target = this.getTarget(event);
     const template = target.getAttribute('data-param-type') || '';
     // 当前点击是否为参数
     if (template) {
       this.currentParameter = target;
       await this._parameterEditEcho(template);
-      this.addEventEditParameter();
+      this.addEventEditParameter(template);
       // 初始化选项设置-更改选项事件
-      if (template === 'radio' || template === 'checkbox') {
+      if (['radio', 'checkbox'].includes(template)) {
         this._changeOptionValueEvent();
       }
     }
-
     view.controlAccordion(!!template);
     view.activeParamSynced(target);
   },
@@ -89,7 +94,7 @@ export default {
   /**
    * 参数编辑事件注册
    */
-  addEventEditParameter() {
+  addEventEditParameter(template) {
     const parameterWrapper = document.querySelector(PARAMETER_EDIT_WRAPPER);
     // 根据属性设置
     const accordAttrDom = parameterWrapper.querySelectorAll(ACCORD_ATTR_INPUT);
@@ -111,6 +116,16 @@ export default {
       element.addEventListener('click', this.handleInputChangedStyle.bind(this));
     })
 
+    if (template === 'idcard') {
+      // 身份证默认值
+      const SET_ID_CARD_W = document.querySelector(SET_ID_CARD_ID);
+      SET_ID_CARD_W.addEventListener('keyup', this.handleIdCardDefaultVal.bind(this), false)
+    }
+
+    if (template === 'date') {
+      dateEvent.handleDateSelected.apply(this)
+    }
+
     // 选项设置-添加选项
     const addOptionBtn = document.querySelector(ADD_OPTION_BTN);
     if (addOptionBtn) {
@@ -125,45 +140,12 @@ export default {
   async handleInputChanged(event) {
     const {$} = this.froala;
     const target = event.target, attrName = target.name;
-
     const triggerEvent = this.changeParametersData(attrName, target.value);
-    triggerEvent[attrName] && triggerEvent[attrName]()
+    triggerEvent[attrName] && triggerEvent[attrName]();
 
     // 更新数据
     const id = $(this.currentParameter).attr('id');
     await db.setItem(id, {[attrName]: target.value})
-  },
-
-  /**
-   * 修改当前参数属性&Value
-   * @param attrName
-   * @param value
-   */
-  changeParametersData(attrName, value) {
-    const _this = this;
-    const {$} = this.froala;
-    const currentParameter = this.currentParameter;
-
-    return {
-      // 参数名称
-      name() {
-        $(currentParameter).attr('data-param-name', value);
-      },
-      // 默认值
-      defaultValue() {
-        $(currentParameter).text(value);
-        $(currentParameter).attr('data-shadow-value', value);
-      },
-      // 外观
-      style() {
-        $(currentParameter).attr('data-border-type', value);
-      },
-      // 布局
-      async layout() {
-        $(currentParameter).attr('data-layout', value);
-        await _this._changeSelectLayout(value);
-      }
-    }
   },
 
   /**
@@ -236,6 +218,72 @@ export default {
         [attrName]: value,
       }
     })
+  },
+
+  /**
+   * 设置身份证默认值
+   */
+  async handleIdCardDefaultVal(event) {
+    const key = event.key;
+    if (key !== 'Backspace' && key !== 'x' && key !== 'X' && !/^[0-9]*$/.test(key)) return;
+
+    const idCards = [...this.currentParameter.children];
+    const values = event.target.value.split('');
+
+    if (values.length > 18) return;
+
+    // 更新数据
+    const id = this.currentParameter.getAttribute('id');
+    await db.setItem(id, {
+      defaultValue: values.join('')
+    })
+
+    if (key === 'Backspace') {
+      idCards.forEach((element, index) => {
+        const value = values[index] ? values[index] : '';
+        element.innerHTML = value;
+        element.setAttribute('data-shadow-value', value);
+      })
+
+      return;
+    }
+
+    values.forEach((value, index) => {
+      idCards[index].innerHTML = value;
+      idCards[index].setAttribute('data-shadow-value', value);
+    })
+  },
+
+  /**
+   * 修改当前参数属性&Value
+   * @param attrName
+   * @param value
+   */
+  changeParametersData(attrName, value) {
+    const _this = this;
+    const {$} = this.froala;
+    const currentParameter = this.currentParameter;
+
+    return {
+      // 参数名称
+      name() {
+        $(currentParameter).attr('data-param-name', value);
+      },
+      // 默认值
+      defaultValue() {
+        $(currentParameter).text(value);
+        $(currentParameter).attr('data-shadow-value', value);
+      },
+      // 外观
+      style() {
+        $(currentParameter).attr('data-border-type', value);
+      },
+      // 布局
+      async layout() {
+        $(currentParameter).attr('data-layout', value);
+        await _this._changeSelectLayout(value);
+      }
+    }
   },
 
   /**
@@ -346,5 +394,22 @@ export default {
     }
 
     inputs.forEach(element => element.addEventListener('input', changedValue, false));
+  },
+
+  /**
+   * 替换table插入内容
+   * @param table
+   */
+  replaceTableContent(table) {
+    const cloneTable = table.cloneNode(true);
+    table.remove();
+
+    const fragment = document.createElement('div');
+    const tableWrapper = document.createElement('div');
+    tableWrapper.className = 'fr-deletable';
+    tableWrapper.innerHTML = `<table class="" style="width: 100%">${cloneTable.innerHTML}</table>`;
+    fragment.append(tableWrapper);
+
+    return fragment.innerHTML;
   }
 }

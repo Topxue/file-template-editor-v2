@@ -5,18 +5,18 @@
  * @param params
  * @returns {string}
  */
-export default ({params}) => {
+export const image = ({params}) => {
   return `
     <!--参数名称-->
     <div class="uk-margin">
-        <label class="uk-form-label" for="pg-parameter-name">参数名称</label>
+        <label class="uk-form-label">参数名称</label>
         <div class="uk-form-controls uk-margin-small-top">
-          <input class="uk-input uk-form-small uk-text-emphasis accord-attr-input" id="pg-parameter-name" type="text" name="name" value="${params?.name || ''}" placeholder="请输入参数名称">
+          <input class="uk-input uk-form-small uk-text-emphasis accord-attr-input" type="text" name="name" value="${params?.name || ''}" placeholder="请输入参数名称">
         </div>
     </div>
      <!--填写说明-->
       <div class="uk-margin">
-        <label class="uk-form-label" for="pg-param-font">填写说明</label>
+        <label class="uk-form-label">填写说明</label>
          <div class="uk-form-controls uk-margin-small-top">
          <textarea class="uk-textarea uk-text-emphasis accord-attr-input" name="description" placeholder="对该参数的其他说明(限100字)">${params?.description || ''}</textarea>
         </div>

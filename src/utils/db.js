@@ -1,5 +1,5 @@
 /** Created by xwp on 2021-11-26 **/
-import initData from "@/utils/initData";
+import initData from "@/utils/init-data";
 import {promisify, randomId} from "@/utils/index";
 
 /**

@@ -1,5 +1,5 @@
 /**
- * @description select 单选
+ * @description select 单选-替换模板
  * @author PG
  * @createTime  2021-11-15
  */
