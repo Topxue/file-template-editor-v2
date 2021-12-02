@@ -8,8 +8,8 @@ export const PARAMETERS_WRAPPER = '#pg-parameters-wrapper'
 export const PARAMETER_EDIT_WRAPPER = '#pg-parameter-edit-wrapper';
 // 日期选择容器ID
 export const PG_SELECT_DATE_ID = '#pg-select-date-wrapper';
-// 单选&多选 标识符 class
-export const PG_RADIO_AS_CHECKBOX = 'pg-radio-as-checkbox';
+// 参数库-Table渲染容器ID
+export const TABLE_SELECTOR_WRAPPER = 'pg-table-selector-wrapper';
 
 /**
  * froala 配置

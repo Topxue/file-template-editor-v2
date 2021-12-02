@@ -5,7 +5,9 @@ import FroalaEditor from 'froala-editor';
 
 import db from '@/utils/db';
 import {$} from "@/utils/Dom";
+import tableEvent from '@/components/table';
 import * as parameter from '@/components/parameters';
+import table from "@/components/parameters/table";
 import bindEvent from '@/components/container/bindEvent';
 import {FROALA_CONTAINER, froalaConfig} from "@/config/froala";
 
@@ -40,13 +42,16 @@ class PgEditor {
         'initialized': async function () {
           // 初始化光表位置
           this.events.focus()
-          if (_this.props?.isViewer) {
-            this.edit.off()
-          }
+          // if (_this.props?.isViewer) {
+          //   this.edit.off()
+          // }
+          // 初始化DOM监听
           await ObserveFroalaDom(_this.froala);
+          // 初始化Table选择
+          tableEvent.initEvent(this);
         },
         'table.inserted': async function (table) {
-          const replaceTableHtml = bindEvent.replaceTableContent(table);
+          const replaceTableHtml = tableEvent.replaceTableContent(table);
           this.html.insert(replaceTableHtml)
         },
         'click': async function (clickEvent) {
@@ -54,7 +59,6 @@ class PgEditor {
         }
       }
     })
-
   }
 
   // 事件绑定
@@ -78,14 +82,10 @@ class PgEditor {
         timeout: 2500,
       })
     }
-
     const target = event.target, isDiv = target.tagName === 'DIV';
     const paramType = isDiv ? target.getAttribute('data-param-type') : target.parentNode.getAttribute('data-param-type');
 
-    // if (paramType === 'table') {
-    //   this.froala?.table.getTablePopups(event)
-    //   return
-    // }
+    if (!paramType || paramType === 'table') return;
 
     const res = await db.addItem({paramType});
     parameter[paramType] && this.froala?.html.insert(await parameter[paramType](res?.target.result), false);

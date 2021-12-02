@@ -58,14 +58,6 @@ $box-shadow: inset 0 0 0 1px #2489f3;
     //}
   }
 
-  .pg-param-card-item {
-    position: relative;
-    &[data-shadow-value=""]:before {
-      content: "?";
-      visibility: hidden;
-    }
-  }
-
   [data-param-type=text].is-active, [data-param-type=date].is-active {
     box-shadow: $box-shadow;
   }
@@ -183,9 +175,20 @@ $box-shadow: inset 0 0 0 1px #2489f3;
     align-items: center;
     margin-right: 5px;
     border: 1px solid #333;
-    padding: 0 4px;
-    width: 18px;
-    line-height: 1.2em;
+    padding: 0 5px;
+    line-height: 17px;
+
+    &[data-shadow-value=""]:before {
+      content: "?";
+      visibility: hidden;
+    }
   }
 }
 
+.custom-row-col {
+  font-size: 12px;
+}
+
+.pg-modal-custom-col {
+  font-size: 14px;
+}

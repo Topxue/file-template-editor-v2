@@ -72,16 +72,11 @@ export const promisify = (request) => {
  * @returns {boolean}
  */
 export const insertParameterVerify = () => {
-  const anchorNode = window?.getSelection()?.anchorNode
-  if (anchorNode) {
-    const isLabel = !!anchorNode?.tagName;
-
-    if (!isLabel) return !isLabel;
-
-    if (isLabel && !!anchorNode.getAttribute('data-param-type')) {
-      return false
-    }
+  const anchorNode = window?.getSelection()?.anchorNode;
+  if (anchorNode?.tagName) {
+    const isParameter = anchorNode?.getAttribute('data-param-type');
+    return isParameter ? false : true;
+  } else {
+    return true;
   }
-
-  return true;
 }

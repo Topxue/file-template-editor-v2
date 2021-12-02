@@ -10,7 +10,6 @@ import replaceRadio from '@/components/parameters/radio';
 // 参数库编辑容器
 import {PARAMETER_EDIT_WRAPPER} from '@/config/froala'
 import {optionSettingRender} from "@/template/render";
-import {children} from "uikit/src/js/util";
 
 // 属性选择-class
 const ACCORD_ATTR_INPUT = '.accord-attr-input';
@@ -43,7 +42,6 @@ export default {
   /**
    * 获取当前点击目标
    * @param event
-   * @returns {(Node & ParentNode) | (() => (Node | null)) | ActiveX.IXMLDOMNode}
    */
   getTarget(event) {
     let target = event.target;
@@ -395,21 +393,4 @@ export default {
 
     inputs.forEach(element => element.addEventListener('input', changedValue, false));
   },
-
-  /**
-   * 替换table插入内容
-   * @param table
-   */
-  replaceTableContent(table) {
-    const cloneTable = table.cloneNode(true);
-    table.remove();
-
-    const fragment = document.createElement('div');
-    const tableWrapper = document.createElement('div');
-    tableWrapper.className = 'fr-deletable';
-    tableWrapper.innerHTML = `<table class="" style="width: 100%">${cloneTable.innerHTML}</table>`;
-    fragment.append(tableWrapper);
-
-    return fragment.innerHTML;
-  }
 }
