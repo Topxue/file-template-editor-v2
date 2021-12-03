@@ -118,9 +118,82 @@ html, body {
   }
 }
 
+.pane-params-container {
+  width: 98%;
+
+  &[class*=uk-list] > ::before {
+    width: 0 !important;
+  }
+
+  .panel-param-item {
+    position: relative;
+    padding: 7px 8px;
+    margin-top: 16px;
+    color: #7f8997;
+    background-color: #f2f3f4;
+    border: 1px dashed #c1c6cd;
+    border-radius: 4px;
+    transition: all .2s ease-out;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &.is-active {
+      border-color: #2489f2;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+      transition: all .2s ease-in;
+
+      .pane-params-close {
+        opacity: 1;
+      }
+    }
+
+    .pane-params-name {
+      text-align: left;
+      flex: 1;
+      word-break: break-all;
+    }
+
+    .pane-params-close {
+      color: #c1c6cd;
+      position: absolute;
+      top: -9px;
+      right: -9px;
+      width: 18px;
+      height: 18x;
+      font-weight: bold;
+      opacity: 0;
+
+      &:hover {
+        color: #ed521f;
+      }
+    }
+
+    .required {
+      &:before {
+        color: #f0a128;
+        content: "*";
+        padding-right: 4px;
+      }
+    }
+  }
+}
+
 
 // 隐藏版权提示信息
 .fr-wrapper > div[style*='z-index:9999;'],
 div[style*='z-index: 9999;'] {
   display: none;
+}
+
+a[href='https://www.froala.com/wysiwyg-editor?k=u'] {
+  font-size: 0px !important;
+  padding: 0px !important;
+  height: 0px !important;
+  display: none !important;
 }

@@ -1,5 +1,6 @@
 /** Created by xwp on 2021-11-29 */
 import db from './db';
+import paneEvent from '@/components/paneparams/bindEvent';
 
 /**
  * 监听富文本删除DOM变化
@@ -24,6 +25,7 @@ export const ObserveFroalaDom = async (froala) => {
     if (!LockState) {
       return LockState = true;
     }
+
     for (let mutationRecord of mutationList) {
       if (mutationRecord.removedNodes) {
         for (let removedNode of mutationRecord.removedNodes) {
@@ -33,6 +35,20 @@ export const ObserveFroalaDom = async (froala) => {
             const id = removedNode.id;
             // 删除数据库为当前id的数据
             db.removeItem(id);
+            // 窗格参数渲染
+            paneEvent._init();
+            return;
+          }
+        }
+      }
+
+      // 添加参数节点
+      if (mutationRecord.addedNodes) {
+        for (let addedNodes of mutationRecord.addedNodes) {
+          // 查询为参数的节点-找到 不再遍历节点;
+          if (addedNodes?.tagName && addedNodes?.hasAttribute('data-param-name')) {
+            // 窗格参数渲染
+            paneEvent._init();
             return;
           }
         }

@@ -5,7 +5,7 @@
  * @type {function(): string}
  */
 export const randomId = (num = 32) => {
-  let returnStr = "", charStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let returnStr = "", charStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
   for (let i = 0; i < num; i++) {
     const index = Math.round(Math.random() * (charStr.length - 1));
     returnStr += charStr.substring(index, index + 1);
@@ -74,12 +74,10 @@ export const promisify = (request) => {
 export const insertParameterVerify = () => {
   const anchorNode = window?.getSelection()?.anchorNode;
   if (anchorNode?.tagName) {
-    const isExistTable = ['td', 'th'].includes(anchorNode?.tagName.toLowerCase());
+    const isExistTable = ['td', 'th'].includes(anchorNode?.tagName.toLowerCase()),
+      isParameter = anchorNode?.getAttribute('data-param-type');
 
-    return !isExistTable;
-
-    const isParameter = anchorNode?.getAttribute('data-param-type');
-    return isParameter ? false : true;
+    return isParameter || isExistTable ? false : true;
   } else {
     return true;
   }

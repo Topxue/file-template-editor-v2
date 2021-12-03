@@ -75,6 +75,7 @@ export default {
     }
     view.controlAccordion(!!template);
     view.activeParamSynced(target);
+
   },
 
   /**

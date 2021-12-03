@@ -13,7 +13,7 @@ export default () => {
     <div class="parameter-container" id="parameter-container">
      ${PARAMETERS.reduce((prev, next) => {
     return prev + (next.type === 'table' ? tableEvent.getTableParameter(next) : `<div class="param-item" data-param-type="${next.type}">
-              <i class="fa ${next.icon}"></i>
+              <i class="${next.icon}"></i>
               <span>${next.label}</span>
             </div>`);
   }, '')}

@@ -34,7 +34,7 @@ export default {
           <button class="uk-button uk-button-link custom-row-col" uk-toggle="target: #modal-custom-col">自定义行列数</button>
           <div id="modal-custom-col" class="pg-modal-custom-col" uk-modal>
             <div class="uk-modal-dialog uk-modal-body">
-                <div class="uk-text-emphasis" id="custom-col-trigger-wrapper">自定义列数</div>
+                <div class="uk-text-emphasis uk-drop-close" id="custom-col-trigger-wrapper">自定义列数</div>
                 <p>
                   <form class="uk-form uk-flex" id="from-custom-col">
                     <div class="uk-flex uk-flex-align-items">
@@ -66,7 +66,7 @@ export default {
     let tableTpl = '';
     for (let r = 0; r < defaultColRow; r++) {
       for (let c = 0; c < defaultColRow; c++) {
-        tableTpl += `<span data-row="${r}" data-col="${c}" class="pg-row-col-item"></span>`
+        tableTpl += `<span data-row="${r}" data-col="${c}" class="pg-row-col-item uk-drop-close"></span>`
       }
     }
     return tableTpl;

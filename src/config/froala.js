@@ -2,6 +2,8 @@
 
 // froala-容器-ID
 export const FROALA_CONTAINER = '#pg-froala-container';
+// 窗格参数容器
+export const PG_PANE_PARAMS = '#pg-html-panel-params';
 // 参数库容器-ID
 export const PARAMETERS_WRAPPER = '#pg-parameters-wrapper'
 // 参数编辑容器-ID
@@ -18,6 +20,7 @@ export const froalaConfig = {
   height: 840,
   language: 'zh_cn',
   disabled: true,
+  attribution: false,
   toolbarContainer: '#pg-toolbar-container',
   toolbarButtons: [
     'undo', 'redo', '|',
