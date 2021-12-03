@@ -196,3 +196,19 @@ export const dateFormatOptionsRender = (params) => {
   }, '');
 }
 
+/**
+ * Create Table Column Key render
+ * @param params
+ */
+export const createTableColumnKeyRender = (params) => {
+  const columnKeys = params.columnKeys || [];
+  if (!columnKeys.length) return '';
+  return columnKeys.reduce((prev, next, index) => {
+    return prev + `<div class="uk-margin">
+        <label class="uk-form-label">第${index + 1}列Key：</label>
+        <div class="uk-form-controls uk-margin-small-top">
+          <input class="uk-input uk-form-small uk-text-emphasis" type="text" name="columnKeys" value="${next}" placeholder="请输入参数名称">
+        </div>
+      </div>`
+  }, '');
+}

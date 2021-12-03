@@ -4,7 +4,6 @@ import tableRenderTemplate from '@/components/parameters/table';
 
 export default {
   froala: null,
-
   /**
    * 初始化事件
    * @param froala
@@ -118,12 +117,12 @@ export default {
    * 插入表格到富文本
    * @param event
    */
-  insetTableEvent(event) {
+  async insetTableEvent(event) {
     const target = event.target;
     const row = +target.getAttribute('data-row') + 1,
       col = +target.getAttribute('data-col') + 1;
 
-    this.froala.html.insert(tableRenderTemplate(row, col));
+    this.froala.html.insert(await tableRenderTemplate(row, col));
   },
 
   /**
@@ -149,12 +148,12 @@ export default {
   customColumns() {
     const submitCustomBtn = document.querySelector('#submit-custom-col');
 
-    submitCustomBtn.addEventListener('click', () => {
+    submitCustomBtn.addEventListener('click', async () => {
       const form = document.querySelector('#from-custom-col');
       const inputs = form.getElementsByTagName('input');
       const row = inputs[0].value, col = inputs[1].value;
 
-      this.froala.html.insert(tableRenderTemplate(row, col))
+      this.froala.html.insert(await tableRenderTemplate(row, col))
 
       inputs[0].value = '';
       inputs[1].value = '';

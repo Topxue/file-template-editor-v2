@@ -74,6 +74,10 @@ export const promisify = (request) => {
 export const insertParameterVerify = () => {
   const anchorNode = window?.getSelection()?.anchorNode;
   if (anchorNode?.tagName) {
+    const isExistTable = ['td', 'th'].includes(anchorNode?.tagName.toLowerCase());
+
+    return !isExistTable;
+
     const isParameter = anchorNode?.getAttribute('data-param-type');
     return isParameter ? false : true;
   } else {

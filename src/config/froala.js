@@ -13,7 +13,6 @@ export const TABLE_SELECTOR_WRAPPER = 'pg-table-selector-wrapper';
 
 /**
  * froala 配置
- * @type {{language: string, toolbarButtons: string[], toolbarContainer: string, height: number}}
  */
 export const froalaConfig = {
   height: 840,
@@ -25,6 +24,7 @@ export const froalaConfig = {
     'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|',
     'insertTable', 'insertImage', 'insertHR'
   ],
+  tableEditButtons: ['tableRemove', '|', 'tableRows', 'tableColumns', 'tableStyle', '-', 'tableCells', 'tableCellBackground', 'tableCellVerticalAlign', 'tableCellHorizontalAlign'],
   // 删除时保留所选文本格式
   // keepFormatOnDelete: true,
   htmlAllowedEmptyTags: ['p', 'span', 'image'],
@@ -36,7 +36,6 @@ export const froalaConfig = {
 
 /**
  * 参数库数据
- * @type {[{icon: string, label: string, type: string}, {icon: string, label: string, type: string}, {icon: string, label: string, type: string}, {icon: string, label: string, type: string}, {icon: string, label: string, type: string}, null, null]}
  */
 export const PARAMETERS = [
   {

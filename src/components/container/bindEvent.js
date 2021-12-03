@@ -49,6 +49,8 @@ export default {
       target = target.parentNode.parentNode;
     } else if (target.tagName === 'LABEL' || target.getAttribute('name') === 'person') {
       target = target.parentNode
+    } else if (target.tagName === 'TD') {
+      return target.closest('.pg-table-container');
     }
 
     return target
@@ -124,6 +126,10 @@ export default {
       dateEvent.handleDateSelected.apply(this)
     }
 
+    if (template === 'table') {
+      this.handleChangeTableColumnKey()
+    }
+
     // 选项设置-添加选项
     const addOptionBtn = document.querySelector(ADD_OPTION_BTN);
     if (addOptionBtn) {
@@ -143,6 +149,11 @@ export default {
 
     // 更新数据
     const id = $(this.currentParameter).attr('id');
+    // 隐藏表头
+    if (attrName === 'hideThead') {
+      await db.setItem(id, {[attrName]: target.checked});
+      return;
+    }
     await db.setItem(id, {[attrName]: target.value})
   },
 
@@ -158,6 +169,9 @@ export default {
 
     const isPixel = pixels.includes(attrName);
     currentParameter.style[attrName] = isPixel ? `${value}px` : value;
+    if (attrName === 'justifyContent') {
+      currentParameter.style.textAlign = value === 'flex-start' ? 'left' : value === 'flex-end' ? 'right' : 'center';
+    }
 
     if (attrName === 'size') {
       const toggleUsage = document.getElementById('toggle-usage');
@@ -393,4 +407,23 @@ export default {
 
     inputs.forEach(element => element.addEventListener('input', changedValue, false));
   },
+
+  /**
+   * 修改Table表头 Key
+   */
+  handleChangeTableColumnKey() {
+    const id = this.currentParameter.getAttribute('id');
+    const columnsInputs = [...document.querySelectorAll('input[name=columnKeys]')];
+    const tHeaders = [...document.querySelectorAll('th[data-pg-th]')];
+
+    const changeEvent = (index, event) => {
+      const value = event.target.value;
+      tHeaders[index].setAttribute('data-pg-th', value);
+
+      const columnKeys = columnsInputs.map(element => element.value);
+      db?.setItem(id, {columnKeys});
+    }
+
+    columnsInputs.forEach((element, index) => element.addEventListener('change', changeEvent.bind(this, index), false));
+  }
 }

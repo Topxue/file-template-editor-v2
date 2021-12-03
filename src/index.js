@@ -25,11 +25,13 @@ class PgEditor {
 
   // 初始化
   _init() {
-    // 初始化连接数据库
-    db.initDB();
     createContainer(this.props);
     this.initFroalaEditor();
     this.registerBindEvent();
+    // 初始化连接数据库
+    db.initDB().then(res => {
+      console.log(`%c 数据库 "${res?.name}" 初始化成功✔`, 'color:#0f0');
+    });
   }
 
   // 初始化Froala
@@ -52,7 +54,7 @@ class PgEditor {
         },
         'table.inserted': async function (table) {
           const replaceTableHtml = tableEvent.replaceTableContent(table);
-          this.html.insert(replaceTableHtml)
+          this.html.insert(replaceTableHtml);
         },
         'click': async function (clickEvent) {
           await bindEvent._init(clickEvent, _this.froala);
@@ -66,7 +68,7 @@ class PgEditor {
     // 参数库事件绑定
     const parameterContainer = $.getElem('#parameter-container');
     parameterContainer.addEventListener('click', this.insetParameter.bind(this), false)
-    // // 测试
+    // 测试
     // $.getElem('#get-data-btn').addEventListener('click', () => {
     //   console.log(this.froala?.html.get(), 'testData...')
     // }, false)

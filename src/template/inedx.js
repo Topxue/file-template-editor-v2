@@ -3,5 +3,6 @@ export {date} from './date';
 export {text} from './text';
 export {radio} from './radio';
 export {image} from './image';
+export {table} from './table';
 export {idcard} from './idcard';
 export {checkbox} from './checkbox';

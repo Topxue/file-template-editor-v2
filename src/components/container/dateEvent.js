@@ -90,7 +90,6 @@ const dateEvent = {
         await db.setItem(id, {format: dateFormat});
       }
     }, false)
-
   },
 }
 

@@ -128,4 +128,28 @@ export default {
     maxLength: 1000,
     columnKeys: [],
   },
+  'table': {
+    name: 'table1',
+    paramType: 'table',
+    isRequired: false,
+    style: 'bottom',
+    layout: 'dropdown',
+    defaultValue: '',
+    options: [],
+    description: '',
+    fontConfig: {
+      fontFamily: '',
+      fontSize: null,
+      fontWeight: 'inherit',
+      justifyContent: 'flex-start',
+      size: ['fixed', {
+        width: 148,
+        height: 17
+      }],
+      color: null,
+    },
+    maxLength: 1000,
+    columnKeys: [],
+    hideThead: false,
+  },
 }
