@@ -61,28 +61,36 @@ class PgEditor {
   // 初始化Froala
   initFroalaEditor() {
     const _this = this;
-    this.froala = new FroalaEditor(FROALA_CONTAINER, {
-      ...froalaConfig,
-      events: {
-        // 完成初始化时触发
-        'initialized': async function () {
-          // 编辑制作模板
-          if (!_this.props?.isViewer) {
-            await _this.froalaInitialized();
-          }
-          // if (_this.props?.isViewer) {
-          //   this.edit.off()
-          // }
-        },
-        'table.inserted': async function (table) {
-          const replaceTableHtml = tableEvent.replaceTableContent(table);
-          this.html.insert(replaceTableHtml);
-        },
-        'click': async function (clickEvent) {
-          await bindEvent._init(clickEvent, _this.froala);
+
+    // TODO 快捷键撤销返回 更新窗格参数渲染-待处理
+    const events = {
+      // 完成初始化时触发
+      'initialized': async function () {
+        const isViewer = _this.props?.isViewer;
+        // 编辑制作模板
+        if (!isViewer) {
+          await _this.froalaInitialized();
         }
+        // if (_this.props?.isViewer) {
+        //   this.edit.off()
+        // }
+      },
+      'table.inserted': async function (table) {
+        const replaceTableHtml = tableEvent.replaceTableContent(table);
+        this.html.insert(replaceTableHtml);
+      },
+      'click': async function (clickEvent) {
+        await bindEvent._init(clickEvent, _this.froala);
+      },
+      'commands.redo': async function () {
+        await paneEvent._init();
+      },
+      'commands.undo': async function () {
+        await paneEvent._init();
       }
-    })
+    }
+
+    this.froala = new FroalaEditor(FROALA_CONTAINER, {...froalaConfig, events})
   }
 
   // 事件绑定
@@ -90,10 +98,6 @@ class PgEditor {
     // 参数库事件绑定
     const parameterContainer = $.getElem('#parameter-container');
     parameterContainer.addEventListener('click', this.insetParameter.bind(this), false)
-    // 测试
-    // $.getElem('#get-data-btn').addEventListener('click', () => {
-    //   console.log(this.froala?.html.get(), 'testData...')
-    // }, false)
   }
 
   // 插入参数库

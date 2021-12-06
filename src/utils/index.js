@@ -101,6 +101,10 @@ const getCurrentTime = (time = +new Date()) => {
   return date.toJSON().substr(0, 19).replace('T', ' ').replace(/-/g, '-');
 }
 
+/**
+ * 定时更新模板
+ * @param froala
+ */
 export const liveUpdateFroalaTemplate = (froala) => {
   setInterval(async () => {
     await db.setItemTmp({template: froala.html.get()})

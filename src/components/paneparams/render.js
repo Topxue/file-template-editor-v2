@@ -46,7 +46,7 @@ export default async () => {
   const templateRender = await template;
 
   document.querySelector(PG_PANE_PARAMS).innerHTML = `
-    <ul uk-tab>
+    <ul uk-tab uk-sticky>
       <li class="uk-active"><a href="#">参数 <sup class="uk-badge">${paramCount}</sup></a></li>
     </ul>
      <ul class="uk-list pane-params-container">${templateRender}</ul>

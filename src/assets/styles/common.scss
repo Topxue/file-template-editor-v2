@@ -49,47 +49,72 @@ html, body {
   display: none;
 }
 
-
-
 .fr-box.fr-basic .fr-wrapper {
   border: none;
   //box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
 }
 
+.pg-header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  height: 48px;
+  background: #fff;
+  box-sizing: border-box;
+  border-bottom: 1px solid #e5e7ea;
+  .pg-header-left-content {
+    display: flex;
+    align-items: center;
+    .pg-header-return-back {
+      width: 65px;
+      display: flex;
+      align-items: center;
+    }
+    .document-update-time {
+      font-size: 12px;
+    }
+  }
+}
+
 .pg-edit-container {
   display: flex;
-  height: calc(100vh - 70px);
+  height: calc(100vh - 120px);
   margin-top: $mr-top;
-  overflow-y: auto;
+  overflow-y: hidden;
   justify-content: space-between;
 
   .pg-html-panel-params {
     @include navStyle;
+    padding-bottom: 45px;
   }
 
   .pg-froala-container {
-    flex: 1;
+    width: 818px;
+    height: 810px;
+    //flex: 1;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
     overflow-y: auto;
-    height: 840px;
     border-radius: 0;
   }
 
   .pg-parameter-container {
     @include navStyle;
     box-sizing: border-box;
-    padding: 10px;
+    padding: 10px 10px 35px 10px;
   }
 }
 
 .pg-toolbar-container {
   .fr-toolbar.fr-top {
+    height: 40px;
     display: flex;
+    align-items: center;
     justify-content: center;
     border: none;
     border-radius: 0;
     text-align: center;
-    box-shadow: 0 2px 8px #00000026;
+    box-shadow: 0 3px 8px #00000026;
     background-color: transparent;
   }
 }
