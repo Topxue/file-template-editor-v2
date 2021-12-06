@@ -1,6 +1,7 @@
 /** Created by xwp on 2021-12-03 **/
 import db from "@/utils/db";
 import {PG_PANE_PARAMS} from "@/config/froala";
+
 /**
  * icon 映射
  */
@@ -19,11 +20,10 @@ const ICON_ENUM = {
  */
 const getPaneParametersRender = () => {
   const parameters = [...document.querySelectorAll('[data-param-name]')];
-
   const template = parameters.reduce(async (prev, next) => {
     const htmlId = next.getAttribute('id'), params = await db.getItem(htmlId);
 
-    return await prev + `<li class="panel-param-item" data-html-id="${params.id}">
+    return await prev + `<li class="panel-param-item" data-html-id="${params?.id}">
         <span class="pane-params-name ${params.isRequired ? 'required' : ''}">${params.name}</span>
         <span class="pane-params-icon ${ICON_ENUM[params.paramType]}"></span>
         <span class="pane-params-close uk-icon" uk-icon="close"></span>

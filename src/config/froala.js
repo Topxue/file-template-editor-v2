@@ -1,5 +1,4 @@
 /** Created by xwp on 2021-11-11 **/
-
 // froala-容器-ID
 export const FROALA_CONTAINER = '#pg-froala-container';
 // 窗格参数容器
@@ -20,7 +19,6 @@ export const froalaConfig = {
   height: 840,
   language: 'zh_cn',
   disabled: true,
-  attribution: false,
   toolbarContainer: '#pg-toolbar-container',
   toolbarButtons: [
     'undo', 'redo', '|',

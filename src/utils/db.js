@@ -2,6 +2,9 @@
 import initData from "@/utils/init-data";
 import {promisify, randomId} from "@/utils/index";
 
+const PARAMETER_TMP = 'parameter-tmp';
+const PARAMETER_TMP_KEY = 'parameter_key';
+
 /**
  * 数据库操作
  */
@@ -30,6 +33,11 @@ class DB {
       let db = event.target.result;
       if (!db.objectStoreNames.contains(this.storeName)) {
         db.createObjectStore(this.storeName, {keyPath: 'id'});
+      }
+
+      // 创建参数模板仓库
+      if (!db.objectStoreNames.contains(PARAMETER_TMP)) {
+        db.createObjectStore(PARAMETER_TMP, {keyPath: 'id'});
       }
     }
 
@@ -64,6 +72,35 @@ class DB {
       objectStore.put(updateRes)
     }
     // return promisify(request);
+  }
+
+  /**
+   * 添加设置数据模板
+   * @param data
+   */
+  async setItemTmp(data) {
+    const db = await this.initDB();
+    const transaction = db.transaction(PARAMETER_TMP, 'readwrite');
+    const objectStore = transaction.objectStore(PARAMETER_TMP);
+    const insetData = {id: PARAMETER_TMP_KEY, ...data};
+    const request = objectStore.put(insetData);
+
+    return promisify(request);
+  }
+
+  /**
+   * 获取富文本编辑数据
+   * @returns {Promise<*>}
+   */
+  async getItemTmp() {
+    // 获取数据库实例
+    const db = await this.initDB();
+    const transaction = db.transaction(PARAMETER_TMP, 'readonly');
+    const objectStore = transaction.objectStore(PARAMETER_TMP);
+    const request = objectStore.get(PARAMETER_TMP_KEY);
+    const event = await promisify(request);
+
+    return event.target.result;
   }
 
   /**

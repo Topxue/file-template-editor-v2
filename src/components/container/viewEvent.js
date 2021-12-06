@@ -1,5 +1,4 @@
 /** Created by xwp on 2021-11-26 **/
-
 import {$} from "@/utils/Dom";
 import {FROALA_CONTAINER} from "@/config/froala";
 
@@ -12,7 +11,7 @@ export default {
    * @param target
    */
   activeParamSynced(target) {
-    const isCard = target.getAttribute('name') === 'person';
+    const isCard = target?.getAttribute('name') === 'person';
     if (isCard) {
       target = target.parentNode;
     }
@@ -24,8 +23,14 @@ export default {
         return element;
       }
     });
-    target.classList.add('is-active');
-    siblings.forEach(element => element.classList.remove('is-active'));
+
+    if (target?.getAttribute('data-param-type')) {
+      target.classList.add('is-active');
+    }
+
+    if (siblings?.length) {
+      siblings.forEach(element => element.classList.remove('is-active'));
+    }
 
     this.paneParamsLinkageParams(target);
   },
@@ -34,7 +39,7 @@ export default {
    * 联动选择-联动与参数库-参数
    */
   paneParamsLinkageParams(target) {
-    const htmlId = target.getAttribute('id');
+    const htmlId = target?.getAttribute('id');
     if (htmlId) {
       const paneActive = document.querySelector(`li[data-html-id="${htmlId}"]`);
       paneActive.classList.add('is-active');

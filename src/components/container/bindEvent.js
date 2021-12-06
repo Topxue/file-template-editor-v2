@@ -62,7 +62,7 @@ export default {
    */
   async parameterEditEvent(event) {
     const target = this.getTarget(event);
-    const template = target.getAttribute('data-param-type') || '';
+    const template = target?.getAttribute('data-param-type') || '';
     // 当前点击是否为参数
     if (template) {
       this.currentParameter = target;
@@ -73,9 +73,9 @@ export default {
         this._changeOptionValueEvent();
       }
     }
+
     view.controlAccordion(!!template);
     view.activeParamSynced(target);
-
   },
 
   /**

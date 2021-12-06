@@ -1,7 +1,6 @@
 /** Created by xwp on 2021-11-10 **/
 import {$} from "@/utils/Dom";
 import createParameters from './parameter-render';
-import paneEvent from "@/components/paneparams/bindEvent";
 import {PARAMETERS_WRAPPER, PG_PANE_PARAMS, FROALA_CONTAINER} from "@/config/froala";
 
 /**
@@ -39,8 +38,6 @@ const template = () => {
 export default (opts = {}) => {
   if (!opts?.container) throw Error('请传入容器！');
   opts.container.innerHTML = template();
-  // 窗格参数渲染
-  paneEvent._init();
   // 创建参数库
   $.getElem(PARAMETERS_WRAPPER).innerHTML = createParameters();
 }

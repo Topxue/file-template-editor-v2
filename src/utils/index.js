@@ -1,4 +1,5 @@
 /** Created by xwp on 2021-11-11 **/
+import db from "@/utils/db";
 
 /**
  * 生成随机 ID
@@ -81,4 +82,28 @@ export const insertParameterVerify = () => {
   } else {
     return true;
   }
+}
+
+/**
+ * 获取参数名称
+ * @returns {string}
+ */
+export const getParameterName = () => {
+  return `参数_${randomId(5).toLocaleLowerCase()}`;
+}
+
+/**
+ * 实时更新富文本模板数据
+ * @param froala
+ */
+const getCurrentTime = (time = +new Date()) => {
+  const date = new Date(time + 8 * 3600 * 1000);
+  return date.toJSON().substr(0, 19).replace('T', ' ').replace(/-/g, '-');
+}
+
+export const liveUpdateFroalaTemplate = (froala) => {
+  setInterval(async () => {
+    await db.setItemTmp({template: froala.html.get()})
+    console.log(`%c 模板保存成功✔ 更新时间: ${getCurrentTime()}`, 'color:#0f0');
+  }, 60000)
 }

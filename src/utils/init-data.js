@@ -1,3 +1,5 @@
+import {getParameterName} from "@/utils/index";
+
 /** Created by xwp on 2021-11-29 **/
 export default {
   'text': {
@@ -129,7 +131,7 @@ export default {
     columnKeys: [],
   },
   'table': {
-    name: 'table1',
+    name: getParameterName(),
     paramType: 'table',
     isRequired: false,
     style: 'bottom',

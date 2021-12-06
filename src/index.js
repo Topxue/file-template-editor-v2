@@ -9,11 +9,12 @@ import tableEvent from '@/components/table';
 import * as parameter from '@/components/parameters';
 import table from "@/components/parameters/table";
 import bindEvent from '@/components/container/bindEvent';
+import createContainer from './components/container/render';
 import {FROALA_CONTAINER, froalaConfig} from "@/config/froala";
 
-import {insertParameterVerify} from "@/utils";
 import {ObserveFroalaDom} from "@/utils/observe-dom";
-import createContainer from './components/container/render';
+import {getParameterName, insertParameterVerify, liveUpdateFroalaTemplate} from "@/utils";
+import paneEvent from "@/components/paneparams/bindEvent";
 
 class PgEditor {
   constructor(props) {
@@ -34,6 +35,29 @@ class PgEditor {
     });
   }
 
+  // froala 初始化完成
+  async froalaInitialized() {
+    const froala = this.froala;
+    // 初始化光表位置
+    froala?.events.focus();
+    // 初始化DOM监听
+    await ObserveFroalaDom(froala);
+    // 初始化Table选择
+    tableEvent.initEvent(froala);
+    // 初始化froala内容模板
+    await this.initFroalaTemplate();
+    await liveUpdateFroalaTemplate(froala);
+  }
+
+  async initFroalaTemplate() {
+    const res = await db.getItemTmp();
+    if (res) {
+      this.froala?.html.set(res.template);
+      // 窗格参数渲染
+      await paneEvent._init();
+    }
+  }
+
   // 初始化Froala
   initFroalaEditor() {
     const _this = this;
@@ -42,15 +66,13 @@ class PgEditor {
       events: {
         // 完成初始化时触发
         'initialized': async function () {
-          // 初始化光表位置
-          this.events.focus()
+          // 编辑制作模板
+          if (!_this.props?.isViewer) {
+            await _this.froalaInitialized();
+          }
           // if (_this.props?.isViewer) {
           //   this.edit.off()
           // }
-          // 初始化DOM监听
-          await ObserveFroalaDom(_this.froala);
-          // 初始化Table选择
-          tableEvent.initEvent(this);
         },
         'table.inserted': async function (table) {
           const replaceTableHtml = tableEvent.replaceTableContent(table);
@@ -89,7 +111,7 @@ class PgEditor {
 
     if (!paramType || paramType === 'table') return;
 
-    const res = await db.addItem({paramType});
+    const res = await db.addItem({paramType, name: getParameterName()});
     parameter[paramType] && this.froala?.html.insert(await parameter[paramType](res?.target.result), false);
   }
 }
