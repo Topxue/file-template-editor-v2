@@ -73,7 +73,7 @@ export const table = ({params}) => {
       <!--隐藏表头-->
       <div class="uk-margin">
          <div class="uk-form-controls uk-margin-small-top">
-          <label><input class="uk-checkbox accord-attr-input" type="checkbox" class="uk-checkbox" name="hideThead" ${isHideThead ? 'checked' : ''}> 隐藏表头</label>
+          <label><input class="uk-checkbox accord-attr-input" type="checkbox" name="hideThead" ${isHideThead ? 'checked' : ''}> 隐藏表头</label>
         </div>
       </div>
       ${createTableColumnKeyRender(params)}

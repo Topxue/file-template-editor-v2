@@ -12,6 +12,8 @@ export const idcard = ({params}) => {
   const fontColor = colorHex(params.fontConfig.color) || '#181616';
   // 参数说明
   const description = params.description;
+  // 是否必填
+  const isRequired = params.isRequired;
 
   return `
       <!--参数名称-->
@@ -74,7 +76,7 @@ export const idcard = ({params}) => {
       <!--是否必填-->
       <div class="uk-margin">
          <div class="uk-form-controls uk-margin-small-top">
-          <label><input type="checkbox" class="uk-checkbox" name="isRequired" checked> 必填</label>
+          <label><input class="uk-checkbox accord-attr-input" type="checkbox" name="isRequired"  ${isRequired ? 'checked' : ''}> 必填</label>
         </div>
       </div>
   `

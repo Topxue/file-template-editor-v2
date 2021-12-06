@@ -25,7 +25,8 @@ export const date = ({params}) => {
   // 参数说明
   const description = params.description;
   const PG_SELECT_DATE = PG_SELECT_DATE_ID.split('#')[1];
-
+  // 是否必填
+  const isRequired = params.isRequired;
 
   return `
       <!--参数名称-->
@@ -134,7 +135,7 @@ export const date = ({params}) => {
       <!--是否必填-->
       <div class="uk-margin">
          <div class="uk-form-controls uk-margin-small-top">
-          <label><input type="checkbox" class="uk-checkbox" name="isRequired" checked> 必填</label>
+          <label><input class="uk-checkbox accord-attr-input" type="checkbox" name="isRequired"  ${isRequired ? 'checked' : ''}> 必填</label>
         </div>
       </div>
   `

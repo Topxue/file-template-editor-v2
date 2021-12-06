@@ -10,6 +10,7 @@ import replaceRadio from '@/components/parameters/radio';
 // 参数库编辑容器
 import {PARAMETER_EDIT_WRAPPER} from '@/config/froala'
 import {optionSettingRender} from "@/template/render";
+import paneEvent from "@/components/paneparams/bindEvent";
 
 // 属性选择-class
 const ACCORD_ATTR_INPUT = '.accord-attr-input';
@@ -150,11 +151,20 @@ export default {
 
     // 更新数据
     const id = $(this.currentParameter).attr('id');
+
+    // 如何当前三个属性任意一个变化 则重新更新窗格参数渲染
+    if (['hideThead', 'isRequired', 'name'].includes(attrName)) {
+      setTimeout(async () => {
+        await paneEvent._init();
+      }, 100)
+    }
+
     // 隐藏表头
-    if (attrName === 'hideThead') {
+    if (attrName === 'hideThead' || attrName === 'isRequired') {
       await db.setItem(id, {[attrName]: target.checked});
       return;
     }
+
     await db.setItem(id, {[attrName]: target.value})
   },
 

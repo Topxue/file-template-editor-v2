@@ -101,7 +101,7 @@ export const radio = ({params}) => {
       <!--是否必填-->
       <div class="uk-margin">
          <div class="uk-form-controls uk-margin-small-top">
-          <label><input type="checkbox" class="uk-checkbox" name="isRequired" value="${isRequired}" checked> 必填</label>
+          <label><input class="uk-checkbox accord-attr-input" type="checkbox" name="isRequired"  ${isRequired ? 'checked' : ''}> 必填</label>
         </div>
       </div>
   `

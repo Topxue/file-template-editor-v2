@@ -59,6 +59,6 @@ export default {
 
     targetParent.remove();
     removeParameter.remove();
-    db?.removeItem(htmlId);
+    // db?.removeItem(htmlId);
   }
 }

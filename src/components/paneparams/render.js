@@ -24,8 +24,8 @@ const getPaneParametersRender = () => {
     const htmlId = next.getAttribute('id'), params = await db.getItem(htmlId);
 
     return await prev + `<li class="panel-param-item" data-html-id="${params?.id}">
-        <span class="pane-params-name ${params.isRequired ? 'required' : ''}">${params.name}</span>
-        <span class="pane-params-icon ${ICON_ENUM[params.paramType]}"></span>
+        <span class="pane-params-name ${params?.isRequired ? 'required' : ''}">${params?.name}</span>
+        <span class="pane-params-icon ${ICON_ENUM[params?.paramType]}"></span>
         <span class="pane-params-close uk-icon" uk-icon="close"></span>
       </li>`
   }, '')
