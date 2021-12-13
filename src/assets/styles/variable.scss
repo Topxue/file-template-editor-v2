@@ -45,6 +45,22 @@
   }
 }
 
+.uk-checkbox {
+  border-radius: 2px;
+}
+
+.uk-dropdown {
+  padding: 0;
+}
+
+.uk-checkbox:checked, .uk-checkbox:indeterminate {
+  border-radius: 2px !important;
+}
+
+.uk-form-icon:not(.uk-form-icon-flip) ~ .uk-input {
+  padding-left: 34px !important;
+}
+
 .select-table-container {
   width: 180px !important;
   font-size: 12px;

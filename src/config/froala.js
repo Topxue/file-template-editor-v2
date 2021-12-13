@@ -11,9 +11,11 @@ export const PARAMETER_EDIT_WRAPPER = '#pg-parameter-edit-wrapper';
 export const PG_SELECT_DATE_ID = '#pg-select-date-wrapper';
 // 参数库-Table渲染容器ID
 export const TABLE_SELECTOR_WRAPPER = 'pg-table-selector-wrapper';
+// 保存ID
+export const SAVE_EDITOR_BTN = 'pg-save-editor-content';
 
 /**
- * froala 配置
+ * froala 制作配置
  */
 export const froalaConfig = {
   height: 840,
@@ -29,11 +31,33 @@ export const froalaConfig = {
   // 删除时保留所选文本格式
   // keepFormatOnDelete: true,
   htmlAllowedEmptyTags: ['p', 'span', 'image'],
-  // tableInsertMaxSize: 20,
   imageEditButtons: ['imageDisplay', 'imageRemove', '-', 'imageAlign', 'imageStyle', 'imageSize'],
-  // tableCellMultipleStyles: false
 }
 
+/**
+ * froala 发起配置
+ */
+export const initiateConfig = {
+  height: 840,
+  language: 'zh_cn',
+  toolbarContainer: '#pg-toolbar-container',
+  htmlAllowedEmptyTags: ['p', 'span', 'image'],
+  tableEditButtons: ['tableRows'],
+  imageEditButtons: ['imageDisplay', 'imageRemove', '-', 'imageAlign', 'imageStyle', 'imageSize'],
+}
+
+/**
+ * icon 映射
+ */
+export const ICON_ENUM = {
+  'text': 'fa fa-text-width',
+  'table': 'fa fa-table',
+  'image': 'fa fa-image',
+  'radio': 'fa fa-check-circle',
+  'checkbox': 'fa fa-check-square',
+  'date': 'fa fa-calendar',
+  'idcard': 'fa fa-id-card'
+}
 
 /**
  * 参数库数据

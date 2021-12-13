@@ -1,5 +1,6 @@
 /** Created by xwp on 2021-11-11 **/
 import db from "@/utils/db";
+import {FROALA_CONTAINER} from "@/config/froala";
 
 /**
  * 生成随机 ID
@@ -107,7 +108,39 @@ const getCurrentTime = (time = +new Date()) => {
  */
 export const liveUpdateFroalaTemplate = (froala) => {
   setInterval(async () => {
-    await db.setItemTmp({template: froala.html.get()})
+    const template = froala.html.get();
+
+    await db.setItemTmp({template: template.replace('is-active', '')})
     console.log(`%c 模板保存成功✔ 更新时间: ${getCurrentTime()}`, 'color:#0f0');
   }, 60000)
+}
+
+
+/**
+ * 获取编辑区域所存在的参数
+ */
+export const getFroalaContentParams = () => {
+  const froalaContainer = document.querySelector(FROALA_CONTAINER);
+  const parameters = [...froalaContainer.querySelectorAll('[data-param-type]')];
+
+  return parameters;
+}
+
+/**
+ * 获取并且更新参数库数据
+ */
+export const getUpdateParametersData = async () => {
+  const parameters = getFroalaContentParams();
+
+  const dbDataAll = await db.getAll();
+  const data = dbDataAll.map(item => {
+    const isExist = parameters.find(element => element.getAttribute('id') === item.id);
+    if (isExist) {
+      return item
+    } else {
+      db.removeItem(item.id);
+    }
+  }).filter(item => item);
+
+  return data;
 }

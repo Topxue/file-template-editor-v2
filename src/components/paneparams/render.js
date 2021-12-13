@@ -1,19 +1,7 @@
 /** Created by xwp on 2021-12-03 **/
 import db from "@/utils/db";
-import {PG_PANE_PARAMS} from "@/config/froala";
+import {ICON_ENUM, PG_PANE_PARAMS} from "@/config/froala";
 
-/**
- * icon 映射
- */
-const ICON_ENUM = {
-  'text': 'fa fa-text-width',
-  'table': 'fa fa-table',
-  'image': 'fa fa-image',
-  'radio': 'fa fa-check-circle',
-  'checkbox': 'fa fa-check-square',
-  'date': 'fa fa-calendar',
-  'idcard': 'fa fa-id-card'
-}
 
 /**
  * 获取窗格参数模板

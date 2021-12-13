@@ -56,7 +56,7 @@ class $SelectorMultiple {
 
   // 下拉显示
   bindEventSelect() {
-    this.select$s.forEach(element => {
+    this.$selects.forEach(element => {
       element.addEventListener('click', (event) => {
         const {left, top} = element.getBoundingClientRect()
 

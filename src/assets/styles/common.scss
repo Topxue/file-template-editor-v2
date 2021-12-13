@@ -55,6 +55,7 @@ html, body {
 }
 
 .pg-header-wrapper {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -63,17 +64,27 @@ html, body {
   background: #fff;
   box-sizing: border-box;
   border-bottom: 1px solid #e5e7ea;
+
   .pg-header-left-content {
     display: flex;
     align-items: center;
+
     .pg-header-return-back {
       width: 65px;
       display: flex;
       align-items: center;
     }
-    .document-update-time {
-      font-size: 12px;
-    }
+  }
+
+  .pg-header-wrapper-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .document-update-time {
+    font-size: 12px;
   }
 }
 
@@ -209,6 +220,74 @@ html, body {
         color: #f0a128;
         content: "*";
         padding-right: 4px;
+      }
+    }
+  }
+}
+
+.is-required {
+  &:before {
+    color: #ed521f;
+    content: "*";
+    padding-right: 4px;
+  }
+}
+
+.pg-parameter-fillin-container {
+  font-size: 12px;
+  //margin: 5px 0;
+  width: 320px;
+  max-width: 320px;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  border-left: 1px solid #e5e7ea;
+  box-shadow: -1px 3px 8px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
+  position: absolute;
+  top: 48px;
+  right: 0;
+  bottom: 0;
+  //margin-left: 254px;
+}
+
+
+.initiate-container {
+  justify-content: center;
+}
+
+.trip-text {
+  font-size: 18px;
+  user-select: none;
+}
+
+.pg-dropdown-container {
+  li {
+    padding: 0 20px;
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #606266;
+    box-sizing: border-box;
+    cursor: pointer;
+    height: 34px;
+    line-height: 34px;
+
+    &:hover {
+      background-color: #f5f7fa;
+    }
+
+    &.is-active {
+      color: #2489f2;
+      a {
+        color: #2489f2;
+      }
+
+      &:before {
+        content: "✔";
+        position: absolute;
+        right: 10px;
+        top: 7px;
       }
     }
   }

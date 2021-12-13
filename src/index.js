@@ -4,17 +4,22 @@ import '@/config/plugins';
 import FroalaEditor from 'froala-editor';
 
 import db from '@/utils/db';
-import {$} from "@/utils/Dom";
 import tableEvent from '@/components/table';
-import * as parameter from '@/components/parameters';
 import table from "@/components/parameters/table";
+import * as parameter from '@/components/parameters';
 import bindEvent from '@/components/container/bindEvent';
+import paneEvent from "@/components/paneparams/bindEvent";
 import createContainer from './components/container/render';
-import {FROALA_CONTAINER, froalaConfig} from "@/config/froala";
+import {FROALA_CONTAINER, froalaConfig, initiateConfig, SAVE_EDITOR_BTN} from "@/config/froala";
 
 import {ObserveFroalaDom} from "@/utils/observe-dom";
-import {getParameterName, insertParameterVerify, liveUpdateFroalaTemplate} from "@/utils";
-import paneEvent from "@/components/paneparams/bindEvent";
+import {
+  getParameterName,
+  insertParameterVerify,
+  getUpdateParametersData,
+  liveUpdateFroalaTemplate
+} from "@/utils";
+import initiateEvent from "@/components/container/initiateEvent";
 
 class PgEditor {
   constructor(props) {
@@ -26,16 +31,18 @@ class PgEditor {
 
   // 初始化
   _init() {
+    // 初始化创建容器
     createContainer(this.props);
+    // 初始化froala编辑器
     this.initFroalaEditor();
-    this.registerBindEvent();
+
     // 初始化连接数据库
     db.initDB().then(res => {
       console.log(`%c 数据库 "${res?.name}" 初始化成功✔`, 'color:#0f0');
     });
   }
 
-  // froala 初始化完成
+  // froala 初始化-制作模板
   async froalaInitialized() {
     const froala = this.froala;
     // 初始化光表位置
@@ -46,9 +53,19 @@ class PgEditor {
     tableEvent.initEvent(froala);
     // 初始化froala内容模板
     await this.initFroalaTemplate();
+    // 定时更新模板
     await liveUpdateFroalaTemplate(froala);
+    // 初始化注册事件
+    this.registerBindEvent();
   }
 
+  //froala 初始化-发起事件处理
+  async froalaInitiate() {
+    this.froala.edit.off();
+    await initiateEvent.init(this.froala);
+  }
+
+  // 初始化模板内容
   async initFroalaTemplate() {
     const res = await db.getItemTmp();
     if (res) {
@@ -58,22 +75,13 @@ class PgEditor {
     }
   }
 
-  // 初始化Froala
+  // 初始化Froala-制作模板
   initFroalaEditor() {
     const _this = this;
-
-    // TODO 快捷键撤销返回 更新窗格参数渲染-待处理
-    const events = {
+    const makeEvents = {
       // 完成初始化时触发
       'initialized': async function () {
-        const isViewer = _this.props?.isViewer;
-        // 编辑制作模板
-        if (!isViewer) {
-          await _this.froalaInitialized();
-        }
-        // if (_this.props?.isViewer) {
-        //   this.edit.off()
-        // }
+        await _this.froalaInitialized();
       },
       'table.inserted': async function (table) {
         const replaceTableHtml = tableEvent.replaceTableContent(table);
@@ -90,14 +98,53 @@ class PgEditor {
       }
     }
 
-    this.froala = new FroalaEditor(FROALA_CONTAINER, {...froalaConfig, events})
+    // 初始化Froala-发起
+    const initiateEvents = {
+      // 完成初始化时触发
+      'initialized': async function () {
+        await _this.froalaInitiate();
+        // const froalaContainer = document.querySelector(FROALA_CONTAINER);
+        // froalaContainer.querySelectorAll('[data-param-type]').forEach(element => {
+        //   element.setAttribute('contenteditable', "true")
+        //   element.addEventListener('input', (event) => {
+        //     event.target.setAttribute('data-shadow-value', event.target.innerHTML)
+        //     event.target.innerHTML
+        //   })
+        // });
+
+        // console.log(froalaContainer.querySelectorAll('[data-param-type]'))
+      }
+    }
+
+    const isViewer = _this.props?.isViewer;
+    // 发起
+    if (isViewer) {
+      this.froala = new FroalaEditor(FROALA_CONTAINER, {...initiateConfig, events: initiateEvents})
+      // 制作
+    } else {
+      this.froala = new FroalaEditor(FROALA_CONTAINER, {...froalaConfig, events: makeEvents})
+    }
   }
 
   // 事件绑定
   registerBindEvent() {
     // 参数库事件绑定
-    const parameterContainer = $.getElem('#parameter-container');
-    parameterContainer.addEventListener('click', this.insetParameter.bind(this), false)
+    const parameterContainer = document.getElementById('parameter-container');
+    parameterContainer.addEventListener('click', this.insetParameter.bind(this), false);
+
+    // 保存
+    const saveBtn = document.getElementById(SAVE_EDITOR_BTN);
+    saveBtn.addEventListener('click', this.saveEditorContent.bind(this), false);
+  }
+
+  /**
+   * 保存模板
+   */
+  async saveEditorContent() {
+    const template = this.froala?.html.get().replace('is-active', '');
+
+    await db.setItemTmp({template});
+    await getUpdateParametersData();
   }
 
   // 插入参数库

@@ -143,13 +143,8 @@ class DB {
     const objectStore = transaction.objectStore(this.storeName);
     const request = objectStore.getAll();
     const event = await promisify(request);
-    const result = event.target.result;
-    if (!result || !result.length) return;
-    const map = new Map()
-    for (let {key, value} of result) {
-      map.set(key, value)
-    }
-    return map
+    const result = event?.target?.result || [];
+    return result
   }
 
   /**
